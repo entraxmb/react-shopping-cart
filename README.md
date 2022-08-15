@@ -1,9 +1,6 @@
 # react-shopping-cart
+
 A basic react based shopping cart
-
-
-
-
 
 # Getting Started with Create React App
 
