@@ -1,4 +1,4 @@
-/* describe('Show List of Shopping Cart Items', () => {
+describe('Show List of Shopping Cart Items', () => {
   it('Displays the added products in a list', () => {
     cy.visit('http://localhost:8080/cart');
 
@@ -23,4 +23,3 @@ describe('Click the Remove from Cart Button', () => {
     );
   });
 });
- */

@@ -46,7 +46,7 @@ const CartPage = (props) => {
                   className="table table-striped table-sm"
                 >
                   <thead>
-                    <tr>
+                    <tr className="border-bottom">
                       <th scope="col">Product</th>
                       <th scope="col">Qty</th>
                       <th scope="col">Price</th>
@@ -81,40 +81,42 @@ const CartPage = (props) => {
                       </tr>
                     ))}
                     <tr>
-                      <td></td>
-                      <td></td>
-                      <td>
+                      <td
+                        colspan="3"
+                        className="blank-cell cell-text-right"
+                      >
                         <strong>Sub-Total:</strong>
                       </td>
-                      <td>
+                      <td colspan="2">
                         <strong>
                           £{context.subTotal?.toFixed(2) || '0.00'}
                         </strong>
                       </td>
-                      <td></td>
                     </tr>
                     <tr>
-                      <td></td>
-                      <td></td>
-                      <td>Discounts:</td>
-                      <td className="discount-total">
+                      <td
+                        colspan="3"
+                        className="blank-cell cell-text-right"
+                      >
+                        Discounts:
+                      </td>
+                      <td colspan="2" className="discount-total">
                         £
                         {context.totalDiscounts?.toFixed(2) || '0.00'}
                       </td>
-                      <td></td>
                     </tr>
                     <tr>
-                      <td></td>
-                      <td></td>
-                      <td>
+                      <td
+                        colspan="3"
+                        className="blank-cell cell-text-right"
+                      >
                         <strong>Total:</strong>
                       </td>
-                      <td>
+                      <td colspan="2">
                         <strong>
                           £{context.total?.toFixed(2) || '0.00'}
                         </strong>
                       </td>
-                      <td></td>
                     </tr>
                   </tbody>
                 </table>

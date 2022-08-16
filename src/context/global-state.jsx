@@ -27,14 +27,14 @@ const GlobalState = (props) => {
       id: 2,
       productId: 'Soup',
       offerId: 'Bread',
-      type: 'BOGHP',
+      type: 'BOGOHP',
       discount: 0.5,
     },
     {
       id: 3,
       productId: 'Butter',
       offerId: 'Butter',
-      type: 'BYGTO',
+      type: '3rdOff',
       discount: 33.3,
     },
   ];
