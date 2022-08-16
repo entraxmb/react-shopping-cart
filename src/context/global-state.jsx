@@ -11,18 +11,44 @@ const GlobalState = (props) => {
     { id: 4, name: 'Soup', type: 'Grocery', price: 0.6 },
     { id: 5, name: 'Butter', type: 'Dairy', price: 1.2 },
   ];
-  const [cartState, dispatch] = useReducer(shopReducer, { cart: [] });
+  const [cartState, dispatch] = useReducer(shopReducer, {
+    cart: [],
+    subTotal: 0,
+  });
+  const availableDiscounts = [
+    {
+      id: 1,
+      productId: 'Cheese',
+      offerId: 'Cheese',
+      type: 'BOGOF',
+      discount: 100,
+    },
+    {
+      id: 2,
+      productId: 'Soup',
+      offerId: 'Bread',
+      type: 'BOGHP',
+      discount: 0.5,
+    },
+    {
+      id: 3,
+      productId: 'Butter',
+      offerId: 'Butter',
+      type: 'BYGTO',
+      discount: 33.3,
+    },
+  ];
 
   const addProductToCart = (product) => {
     setTimeout(() => {
       dispatch({ type: ADD_PRODUCT, product: product });
-    }, 700);
+    }, 100);
   };
 
   const removeProductFromCart = (productId) => {
     setTimeout(() => {
       dispatch({ type: REMOVE_PRODUCT, productId: productId });
-    }, 700);
+    }, 100);
   };
 
   return (
@@ -30,6 +56,7 @@ const GlobalState = (props) => {
       value={{
         products: products,
         cart: cartState.cart,
+        subTotal: cartState.subTotal,
         addProductToCart: addProductToCart,
         removeProductFromCart: removeProductFromCart,
       }}

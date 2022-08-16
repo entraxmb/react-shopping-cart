@@ -1,41 +1,75 @@
 import React from 'react';
 import Header from '../../components/header/header';
 import ShopContext from '../../context/shop-context';
-// import './Products.css';
+import './offer-box.css';
 
 const ProductsPage = (props) => {
   return (
     <ShopContext.Consumer>
       {(context) => (
-        <React.Fragment>
+        <>
           <Header
             cartItemNumber={context.cart.reduce((count, curItem) => {
               return count + curItem.quantity;
             }, 0)}
           />
-          <main className="products">
-            <ul>
-              {context.products.map((product) => (
-                <li key={product.id}>
-                  <div>
-                    <strong>{product.name}</strong> - £
-                    {product.price.toFixed(2)}
+          <main>
+            <div className="row row-cols-1">
+              <div className="col-md-8 col table-responsive">
+                <table
+                  id="tblProducts"
+                  data-testid="tblProducts"
+                  className="table table-striped table-sm"
+                >
+                  <tbody>
+                    {context.products.map((product) => (
+                      <tr
+                        data-testid="tblProductItem"
+                        key={product.id}
+                      >
+                        <td>
+                          <strong>{product.name}</strong>
+                        </td>
+                        <td>Price: £{product.price.toFixed(2)}</td>
+                        <td>
+                          <button
+                            className="btn btn-primary btn-sm"
+                            onClick={context.addProductToCart.bind(
+                              this,
+                              product
+                            )}
+                          >
+                            Add to Cart
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="col-md-4 col">
+                <div className="card mb-4 rounded-3 shadow-sm">
+                  <div className="card-header py-3 text-center">
+                    <h4 className="my-0 fw-normal">Offers</h4>
                   </div>
-                  <div>
-                    <button
-                      onClick={context.addProductToCart.bind(
-                        this,
-                        product
-                      )}
-                    >
-                      Add to Cart
-                    </button>
+                  <div className="card-body">
+                    <ul className="list-group w-auto">
+                      <li className="mb-0 opacity-75">
+                        Buy a Cheese, you get a second Cheese FREE!
+                      </li>
+                      <li className="mb-0 opacity-75">
+                        Buy Soup, you get a half price Bread!
+                      </li>
+                      <li className="mb-0 opacity-75">
+                        Get a Third off Butter!
+                      </li>
+                    </ul>
                   </div>
-                </li>
-              ))}
-            </ul>
+                </div>
+              </div>
+            </div>
           </main>
-        </React.Fragment>
+        </>
       )}
     </ShopContext.Consumer>
   );

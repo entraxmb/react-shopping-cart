@@ -7,7 +7,7 @@ import GlobalState from '../../context/global-state';
 const App = (props) => {
   return (
     <GlobalState>
-      <div>
+      <div className="container">
         <Favicon url={fIco} />
         <AllRoutes />
       </div>

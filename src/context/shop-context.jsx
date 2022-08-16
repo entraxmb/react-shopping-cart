@@ -11,4 +11,28 @@ export default React.createContext({
   cart: [],
   addProductToCart: (product) => {},
   removeProductFromCart: (productId) => {},
+  availableDiscounts: [
+    {
+      id: 1,
+      productId: 'Cheese',
+      offerId: 'Cheese',
+      type: 'BOGOF',
+      discount: 100,
+    },
+    {
+      id: 2,
+      productId: 'Soup',
+      offerId: 'Bread',
+      type: 'BOGHP',
+      discount: 0.5,
+    },
+    {
+      id: 3,
+      productId: 'Butter',
+      offerId: 'Butter',
+      type: 'BYGTO',
+      discount: 33.3,
+    },
+  ],
+  subTotal: 0,
 });
