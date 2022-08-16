@@ -57,6 +57,8 @@ const GlobalState = (props) => {
         products: products,
         cart: cartState.cart,
         subTotal: cartState.subTotal,
+        totalDiscounts: cartState.totalDiscounts,
+        total: cartState.total,
         addProductToCart: addProductToCart,
         removeProductFromCart: removeProductFromCart,
       }}

@@ -3,11 +3,15 @@ export const REMOVE_PRODUCT = 'REMOVE_PRODUCT';
 
 const addProductToCart = (product, state) => {
   const updatedCart = [...state.cart];
-  const updatedSubTotal = { ...state }.subTotal; //updatedCart.subTotal;
+  const updatedSubTotal = { ...state }.subTotal;
+  const updatedTotalDiscounts = { ...state }.totalDiscounts;
+  const updatedTotal = { ...state }.total;
   const updatedItemIndex = updatedCart.findIndex(
     (item) => item.id === product.id
   );
   var newSubTotal = 0;
+  var newTotalDiscounts = 0;
+  var newTotal = 0;
   var tmpQty = 0;
 
   if (updatedItemIndex < 0) {
@@ -30,7 +34,15 @@ const addProductToCart = (product, state) => {
     true
   );
 
-  return { ...state, cart: updatedCart, subTotal: newSubTotal };
+  newTotal = calcNewTotal(newSubTotal, newTotalDiscounts);
+
+  return {
+    ...state,
+    cart: updatedCart,
+    subTotal: newSubTotal,
+    totalDiscounts: newTotalDiscounts,
+    total: newTotal,
+  };
 };
 
 const removeProductFromCart = (productId, state) => {
@@ -43,6 +55,8 @@ const removeProductFromCart = (productId, state) => {
   var tmpPrice = 0;
   var tmpQty = 0;
   var newSubTotal = 0;
+  var newTotalDiscounts = 0;
+  var newTotal = 0;
 
   const updatedItem = {
     ...updatedCart[updatedItemIndex],
@@ -67,7 +81,15 @@ const removeProductFromCart = (productId, state) => {
     false
   );
 
-  return { ...state, cart: updatedCart, subTotal: newSubTotal };
+  newTotal = calcNewTotal(newSubTotal, newTotalDiscounts);
+
+  return {
+    ...state,
+    cart: updatedCart,
+    subTotal: newSubTotal,
+    totalDiscounts: newTotalDiscounts,
+    total: newTotal,
+  };
 };
 
 const calcSubTotal = (currentSubTotal, price, qty, add) => {
@@ -80,6 +102,10 @@ const calcSubTotal = (currentSubTotal, price, qty, add) => {
   }
 
   return newSubTotal;
+};
+
+const calcNewTotal = (subTotal, totalDiscounts) => {
+  return subTotal - totalDiscounts;
 };
 
 export const shopReducer = (state, action) => {

@@ -2,6 +2,8 @@ import React, { useContext, useEffect } from 'react';
 import Header from '../../components/header/header';
 import ShopContext from '../../context/shop-context';
 
+import './cart.css';
+
 /*function getNewSubTotal(context) {
   let st = 0;
 
@@ -86,7 +88,7 @@ const CartPage = (props) => {
                       </td>
                       <td>
                         <strong>
-                          £{context.subTotal?.toFixed(2) || '-'}
+                          £{context.subTotal?.toFixed(2) || '0.00'}
                         </strong>
                       </td>
                       <td></td>
@@ -95,14 +97,23 @@ const CartPage = (props) => {
                       <td></td>
                       <td></td>
                       <td>Discounts:</td>
-                      <td></td>
+                      <td className="discount-total">
+                        £
+                        {context.totalDiscounts?.toFixed(2) || '0.00'}
+                      </td>
                       <td></td>
                     </tr>
                     <tr>
                       <td></td>
                       <td></td>
-                      <td>Total:</td>
-                      <td></td>
+                      <td>
+                        <strong>Total:</strong>
+                      </td>
+                      <td>
+                        <strong>
+                          £{context.total?.toFixed(2) || '0.00'}
+                        </strong>
+                      </td>
                       <td></td>
                     </tr>
                   </tbody>

@@ -35,4 +35,6 @@ export default React.createContext({
     },
   ],
   subTotal: 0,
+  totalDiscounts: 0,
+  total: 0,
 });
