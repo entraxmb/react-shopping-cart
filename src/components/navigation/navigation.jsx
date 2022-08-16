@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function Navbar() {
+const Navigation = (props) => {
   return (
     <>
       <div>
@@ -14,7 +14,7 @@ function Navbar() {
             </li>
             <li>
               <Link to="/cart" title="">
-                Cart
+                Cart ({props.cartItemNumber})
               </Link>
             </li>
           </ul>
@@ -22,6 +22,6 @@ function Navbar() {
       </div>
     </>
   );
-}
+};
 
-export default Navbar;
+export default Navigation;

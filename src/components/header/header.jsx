@@ -1,19 +1,31 @@
 import React from 'react';
-import Navigation from '../nav-bar/nav-bar';
+import Navigation from '../navigation/navigation';
+import ShopContext from '../../context/shop-context';
 
-function Header() {
+const Header = (props) => {
   return (
-    <>
-      <div>
-        <div>
-          <h1>RCart</h1>
-        </div>
-        <div>
-          <Navigation />
-        </div>
-      </div>
-    </>
+    <ShopContext.Consumer>
+      {(context) => (
+        <>
+          <div>
+            <div>
+              <h1>RCart</h1>
+            </div>
+            <div>
+              <Navigation
+                cartItemNumber={context.cart.reduce(
+                  (count, curItem) => {
+                    return count + curItem.quantity;
+                  },
+                  0
+                )}
+              />
+            </div>
+          </div>
+        </>
+      )}
+    </ShopContext.Consumer>
   );
-}
+};
 
 export default Header;
