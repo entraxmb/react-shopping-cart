@@ -54,9 +54,7 @@ The reducers in the application are where I am doing majority of the heavy lifit
 
 ## Accessing the site
 
-The intention is to get it running on https://rct.mbproj.com but currently DNS is not resolving.
-
-But in the meantime it is advised to run it locally with 'npm start' or to run the index.html file in the 'build' directory.
+The site is running on https://rct.mbproj.com
 
 ## Available Scripts
 
