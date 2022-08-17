@@ -1,10 +1,62 @@
 # react-shopping-cart
 
-A basic react based shopping cart
+A basic react based shopping cart build with the following requirements:
 
-# Getting Started with Create React App
+## requirements of cart
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A shoppingg cart that can receive a selection of the below products and calculate the bill. The bill should include:
+• Subtotal before special offers applied
+• Special offers applied and their individual saving
+• Final total with savings applied
+
+## scenarios
+
+Scenarios
+• Buy a soup and two breads - only one bread should be reduced
+• Buy three cheeses - only one should be free
+• Buy four cheeses - two now should be free
+• Butter alone
+• Butter with other things
+• A mixture of the above scenarios
+
+## demo content
+
+### products & prices
+
+• Bread £1.10
+• Milk 50p
+• Cheese 90p
+• Soup 60p
+• Butter £1.20
+
+### special offers
+
+• When you buy a Cheese, you get a second Cheese free!
+• When you buy a Soup, you get a half price Bread!
+• Get a third off Butter!
+
+## notes
+
+I have the discounts outstanding, though i do have the placeholder for 1/3 off bread in the cart.
+
+My function for the discount checking would occur as the shopping cart is rendered to the screen.
+
+It would cycle through each element and would check the 'offers' if one has been applied.
+
+The 'offers' is to be set out as below:
+
+id | offerOnProduct | itemOffered | discount
+1 | Cheese | Cheese | 100%
+2 | Soup | Bread | 50%
+3 | Butter | | 1/3 off
+
+The reducers in the application are where I am doing majority of the heavy lifiting for the functionality.
+
+## Accessing the site
+
+The intention is to get it running on https://rct.mbproj.com but currently DNS is not resolving.
+
+But in the meantime it is advised to run it locally with 'npm start' or to run the index.html file in the 'build' directory.
 
 ## Available Scripts
 
@@ -13,15 +65,11 @@ In the project directory, you can run:
 ### `npm start`
 
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Open [http://localhost:8080](http://localhost:8080) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### `npm run cypress`
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Launches the test runner
 
 ### `npm run build`
 
@@ -30,45 +78,3 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
