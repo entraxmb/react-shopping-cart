@@ -16,6 +16,13 @@ import './cart.css';
   return st;
 }*/
 
+function checkDiscount(discount) {
+  if (discount !== null && discount.length > 0) {
+    return <span class="badge bg-info offer-applied">{discount}</span>;
+  }
+  return null;
+}
+
 const CartPage = (props) => {
   const context = useContext(ShopContext);
 
@@ -58,7 +65,10 @@ const CartPage = (props) => {
                     {context.cart.map((cartItem) => (
                       <tr data-testid="tblCartItem" key={cartItem.id}>
                         <td>{cartItem.name}</td>
-                        <td>{cartItem.quantity}</td>
+                        <td>
+                          {cartItem.quantity}
+                          {checkDiscount(cartItem.discountApplied)}
+                        </td>
                         <td>£{cartItem.price.toFixed(2)}</td>
                         <td>
                           £

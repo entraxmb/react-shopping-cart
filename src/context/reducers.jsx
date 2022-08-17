@@ -34,6 +34,8 @@ const addProductToCart = (product, state) => {
     true
   );
 
+  newTotalDiscounts = calcNewTotalDiscounts(updatedCart);
+
   newTotal = calcNewTotal(newSubTotal, newTotalDiscounts);
 
   return {
@@ -81,6 +83,9 @@ const removeProductFromCart = (productId, state) => {
     false
   );
 
+  // work out the discounts
+  newTotalDiscounts = calcNewTotalDiscounts(updatedCart);
+
   newTotal = calcNewTotal(newSubTotal, newTotalDiscounts);
 
   return {
@@ -102,6 +107,17 @@ const calcSubTotal = (currentSubTotal, price, qty, add) => {
   }
 
   return newSubTotal;
+};
+
+const calcNewTotalDiscounts = (cart) => {
+  console.log(cart);
+
+  //loop through the cart checking for discounts
+  /*cart.map((cartItem) => (
+    if(c)
+  );*/
+
+  return null;
 };
 
 const calcNewTotal = (subTotal, totalDiscounts) => {
