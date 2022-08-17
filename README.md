@@ -4,7 +4,7 @@ A basic react based shopping cart build with the following requirements:
 
 ## requirements of cart
 
-A shoppingg cart that can receive a selection of the below products and calculate the bill. The bill should include:
+A shopping cart that can receive a selection of the below products and calculate the bill. The bill should include:
 • Subtotal before special offers applied
 • Special offers applied and their individual saving
 • Final total with savings applied
