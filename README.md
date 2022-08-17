@@ -46,9 +46,9 @@ It would cycle through each element and would check the 'offers' if one has been
 The 'offers' is to be set out as below:
 
 id | offerOnProduct | itemOffered | discount
-1 | Cheese | Cheese | 100%
-2 | Soup | Bread | 50%
-3 | Butter | | 1/3 off
+• 1 | Cheese | Cheese | 100%
+• 2 | Soup | Bread | 50%
+• 3 | Butter | | 1/3 off
 
 The reducers in the application are where I am doing majority of the heavy lifiting for the functionality.
 
