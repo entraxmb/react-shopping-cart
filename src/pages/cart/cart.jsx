@@ -27,7 +27,7 @@ function checkDiscountType(text) {
 
 function checkDiscountSaving(text) {
   let output = Number(text);
-  if (output !== null && output !== '') {
+  if (output !== null && output !== '' && output !== 0) {
     return (
       <span className="offer-saving">saved £{output.toFixed(2)}</span>
     );

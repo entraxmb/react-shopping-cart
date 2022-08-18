@@ -81,28 +81,29 @@ const addProductToCart = (product, state) => {
 
 const removeProductFromCart = (productId, state) => {
   const updatedCart = [...state.cart];
+  let checkedProduct = {};
   const updatedItemIndex = updatedCart.findIndex(
     (item) => item.id === productId
   );
 
   const updatedSubTotal = { ...state }.subTotal;
   //const availableDiscounts = { ...state }.availableDiscounts;
-  var tmpPrice = 0;
-  var tmpQty = 0;
+  //var tmpPrice = 0;
+  //var tmpQty = 0;
   var newSubTotal = 0;
   //var newTotalDiscounts = 0;
   //var newTotal = 0;
 
-  const updatedItem = {
+  let updatedItem = {
     ...updatedCart[updatedItemIndex],
   };
   updatedItem.quantity--;
 
-  tmpPrice = updatedItem.price;
+  //tmpPrice = updatedItem.price;
 
   if (updatedItem.quantity <= 0) {
     updatedCart.splice(updatedItemIndex, 1);
-    tmpQty = 0;
+    //tmpQty = 0;
   } else {
     // check and apply discounts
     /*updatedItem = calculateCartDiscounts(updatedItem, {
@@ -110,7 +111,7 @@ const removeProductFromCart = (productId, state) => {
     });*/
 
     updatedCart[updatedItemIndex] = updatedItem;
-    tmpQty = updatedItem.quantity;
+    //tmpQty = updatedItem.quantity;
   }
 
   //update the Sub-Total
