@@ -54,6 +54,11 @@ const addProductToCart = (product, state) => {
     updatedCart[updatedItemIndex] = checkedProduct;
   }
 
+  //console.log('item:');
+  //console.log(updatedCart[updatedItemIndex]);
+  //console.log('cart');
+  //console.log(updatedCart);
+
   //update the Sub-Total
   /*newSubTotal = calcSubTotal(
     { ...state }.subTotal,
@@ -98,6 +103,18 @@ const removeProductFromCart = (productId, state) => {
     ...updatedCart[updatedItemIndex],
   };
   updatedItem.quantity--;
+
+  //console.log('in');
+  //console.log(updatedItem);
+
+  // check and apply discounts
+  updatedItem = calculateCartDiscounts(
+    { ...updatedItem },
+    { ...state.offers }
+  );
+
+  // console.log('out');
+  //console.log(updatedItem);
 
   //tmpPrice = updatedItem.price;
 
@@ -171,13 +188,14 @@ const calcNewTotal = (subTotal, totalDiscounts) => {
 const calculateCartDiscounts = (product, offers, state) => {
   const currentProduct = product;
   let updatedProduct = { ...product };
-  let quantity = 0;
-  let discountText = '';
-  let discountPricePerUnit = 0;
-  let discountSavingPerUnit = 0;
-  let discountTotalSaved = 0;
-  let originalPricePerUnit = 0;
-  let lineTotal = 0;
+  let quantity = product.quantity || 0;
+  let discountText = product.discountText || '';
+  let discountPricePerUnit = product.discountedPricePerUnit || 0;
+  let discountSavingPerUnit = product.discountSavingPerUnit || 0;
+  let discountTotalSaved = product.discountTotalSaved || 0;
+  let originalPricePerUnit =
+    product.discountedFromPricePricePerUnit || 0;
+  //let lineTotal = 0;
 
   /*if ('updatedItem' in updatedProduct !== true) {
     updatedProduct = { ...updatedProduct.updatedItem };
@@ -198,7 +216,7 @@ const calculateCartDiscounts = (product, offers, state) => {
     };
   }
 
-  var newPrice = 0;
+  // var newPrice = 0;
 
   Object.keys(offers).map((key) => {
     //console.log(key); // 👉️ name, country
@@ -208,25 +226,26 @@ const calculateCartDiscounts = (product, offers, state) => {
       //console.log('Happy Days');
       switch (offers[key].type) {
         case '3rdOff':
-          // take a 1/3 off the price of each butter
-          discountPricePerUnit = twoDP(
-            updatedProduct.price - updatedProduct.price / 3
-          );
-          discountSavingPerUnit = twoDP(updatedProduct.price / 3);
           discountText = '3rd OFF';
           if (updatedProduct.quantity > 1) {
             discountText += ' *multi-buy*';
           }
 
           if (updatedProduct.quantity <= 1) {
+            // take a 1/3 off the price of each butter
+            discountPricePerUnit = twoDP(
+              updatedProduct.price - updatedProduct.price / 3
+            );
+            discountSavingPerUnit = twoDP(updatedProduct.price / 3);
+
             //update the original price
             originalPricePerUnit = twoDP(updatedProduct.price);
 
             // now switch that round, it is now the discounted price
             updatedProduct.price = twoDP(discountPricePerUnit);
           } else {
-            originalPricePerUnit =
-              updatedProduct.originalPricePerUnit;
+            /*originalPricePerUnit =
+              updatedProduct.originalPricePerUnit;*/
 
             discountSavingPerUnit =
               updatedProduct.discountSavingPerUnit;
