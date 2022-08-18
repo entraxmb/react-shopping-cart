@@ -16,9 +16,29 @@ import './cart.css';
   return st;
 }*/
 
-function checkDiscount(discount) {
-  if (discount !== null && discount.length > 0) {
-    return <span class="badge bg-info offer-applied">{discount}</span>;
+function checkDiscountType(text) {
+  if (text !== null && text.length > 0) {
+    return (
+      <span className="badge bg-info offer-applied">{text}</span>
+    );
+  }
+  return null;
+}
+
+function checkDiscountSaving(text) {
+  let output = Number(text);
+  if (output !== null && output !== '') {
+    return (
+      <span className="offer-saving">saved £{output.toFixed(2)}</span>
+    );
+  }
+  return null;
+}
+
+function checkDecimalPlaces(text) {
+  let output = Number(text);
+  if (output !== null && output !== '') {
+    return output.toFixed(2);
   }
   return null;
 }
@@ -27,10 +47,9 @@ const CartPage = (props) => {
   const context = useContext(ShopContext);
 
   useEffect(() => {
-    //console.log(context);
+    /*console.log(context);
+    context.calculateCartDiscounts(context.cart);*/
   }, []);
-
-  //const subTotal = getNewSubTotal(context);
 
   return (
     <ShopContext.Consumer>
@@ -59,23 +78,25 @@ const CartPage = (props) => {
                       <th scope="col">Price</th>
                       <th scope="col">Total</th>
                       <th scope="col"></th>
+                      <th scope="col"></th>
                     </tr>
                   </thead>
                   <tbody>
                     {context.cart.map((cartItem) => (
                       <tr data-testid="tblCartItem" key={cartItem.id}>
-                        <td>{cartItem.name}</td>
                         <td>
-                          {cartItem.quantity}
-                          {checkDiscount(cartItem.discountApplied)}
+                          {cartItem.name}
+                          {checkDiscountType(cartItem.discountText)}
                         </td>
-                        <td>£{cartItem.price.toFixed(2)}</td>
+                        <td>{cartItem.quantity}</td>
+                        <td>£{checkDecimalPlaces(cartItem.price)}</td>
                         <td>
-                          £
-                          {(
-                            cartItem.price.toFixed(2) *
-                            cartItem.quantity
-                          ).toFixed(2)}
+                          £{checkDecimalPlaces(cartItem.lineTotal)}
+                        </td>
+                        <td>
+                          {checkDiscountSaving(
+                            cartItem.discountTotalSaved
+                          )}
                         </td>
                         <td>
                           <button
@@ -92,12 +113,12 @@ const CartPage = (props) => {
                     ))}
                     <tr>
                       <td
-                        colspan="3"
+                        colSpan="3"
                         className="blank-cell cell-text-right"
                       >
                         <strong>Sub-Total:</strong>
                       </td>
-                      <td colspan="2">
+                      <td colSpan="2">
                         <strong>
                           £{context.subTotal?.toFixed(2) || '0.00'}
                         </strong>
@@ -105,24 +126,24 @@ const CartPage = (props) => {
                     </tr>
                     <tr>
                       <td
-                        colspan="3"
+                        colSpan="3"
                         className="blank-cell cell-text-right"
                       >
                         Discounts:
                       </td>
-                      <td colspan="2" className="discount-total">
+                      <td colSpan="2" className="discount-total">
                         £
                         {context.totalDiscounts?.toFixed(2) || '0.00'}
                       </td>
                     </tr>
                     <tr>
                       <td
-                        colspan="3"
+                        colSpan="3"
                         className="blank-cell cell-text-right"
                       >
                         <strong>Total:</strong>
                       </td>
-                      <td colspan="2">
+                      <td colSpan="2">
                         <strong>
                           £{context.total?.toFixed(2) || '0.00'}
                         </strong>

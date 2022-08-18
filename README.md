@@ -37,7 +37,7 @@ Scenarios
 
 ## notes
 
-I have the discounts outstanding, though i do have the placeholder for 1/3 off bread in the cart.
+I have the discounts outstanding, though the 3rd off for butter is implemented when buying from the main page.
 
 My function for the discount checking would occur as the shopping cart is rendered to the screen.
 

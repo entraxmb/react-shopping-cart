@@ -1,7 +1,12 @@
 import React, { useState, useReducer } from 'react';
 
 import ShopContext from './shop-context';
-import { shopReducer, ADD_PRODUCT, REMOVE_PRODUCT } from './reducers';
+import {
+  shopReducer,
+  ADD_PRODUCT,
+  REMOVE_PRODUCT,
+  //CALCULATE_DISCOUNTS,
+} from './reducers';
 
 const GlobalState = (props) => {
   const products = [
@@ -10,64 +15,70 @@ const GlobalState = (props) => {
       name: 'Bread',
       type: 'Baked',
       price: 1.1,
-      discountApplied: '',
     },
     {
       id: 2,
       name: 'Milk',
       type: 'Dairy',
       price: 0.5,
-      discountApplied: '',
     },
     {
       id: 3,
       name: 'Cheese',
       type: 'Dairy',
       price: 0.9,
-      discountApplied: '',
     },
     {
       id: 4,
       name: 'Soup',
       type: 'Grocery',
       price: 0.6,
-      discountApplied: '',
     },
     {
       id: 5,
       name: 'Butter',
       type: 'Dairy',
       price: 1.2,
-      discountApplied: '3rd Off',
     },
   ];
-  const [cartState, dispatch] = useReducer(shopReducer, {
-    cart: [],
-    subTotal: 0,
-  });
-  const availableDiscounts = [
+
+  const offers = [
     {
       id: 1,
-      productId: 'Cheese',
-      offerId: 'Cheese',
+      on: 'Cheese',
+      onId: 3,
+      get: 'Cheese',
+      getId: 3,
       type: 'BOGOF',
       discount: 100,
     },
     {
       id: 2,
-      productId: 'Soup',
-      offerId: 'Bread',
+      on: 'Soup',
+      onId: 4,
+      get: 'Bread',
+      getId: 1,
       type: 'BOGOHP',
       discount: 0.5,
     },
     {
       id: 3,
-      productId: 'Butter',
-      offerId: 'Butter',
+      on: 'Butter',
+      onId: 5,
+      get: 'Butter',
+      getId: 5,
       type: '3rdOff',
       discount: 33.3,
     },
   ];
+
+  const [cartState, dispatch] = useReducer(shopReducer, {
+    cart: [],
+    subTotal: 0,
+    totalDiscounts: 0,
+    total: 0,
+    offers: offers,
+  });
 
   const addProductToCart = (product) => {
     setTimeout(() => {
@@ -81,6 +92,12 @@ const GlobalState = (props) => {
     }, 100);
   };
 
+  /*const calculateCartDiscounts = (cart) => {
+    setTimeout(() => {
+      dispatch({ type: CALCULATE_DISCOUNTS, cart: cart });
+    }, 100);
+  };*/
+
   return (
     <ShopContext.Provider
       value={{
@@ -89,9 +106,10 @@ const GlobalState = (props) => {
         subTotal: cartState.subTotal,
         totalDiscounts: cartState.totalDiscounts,
         total: cartState.total,
-        discounts: availableDiscounts,
+        offers: cartState.offers,
         addProductToCart: addProductToCart,
         removeProductFromCart: removeProductFromCart,
+        //calculateCartDiscounts: calculateCartDiscounts,
       }}
     >
       {props.children}
