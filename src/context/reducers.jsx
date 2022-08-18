@@ -14,6 +14,9 @@ const addProductToCart = (product, state) => {
   const updatedCart = [...state.cart];
   let updatedItem = {};
   let checkedProduct = {};
+  var newSubTotal = 0;
+  var newTotalDiscounts = 0;
+  var newTotal = 0;
   //const updatedSubTotal = { ...state }.subTotal;
   //console.log(updatedSubTotal);
   //const updatedTotalDiscounts = { ...state }.totalDiscounts;
@@ -22,8 +25,7 @@ const addProductToCart = (product, state) => {
   const updatedItemIndex = updatedCart.findIndex(
     (item) => item.id === product.id
   );
-  var newSubTotal = 0;
-  //var newTotalDiscounts = 0;
+
   //var newTotal = 0;
   var tmpQty = 0;
 
@@ -73,14 +75,18 @@ const addProductToCart = (product, state) => {
     availableDiscounts
   );*/
 
-  //newTotal = calcNewTotal(newSubTotal, newTotalDiscounts);
+  newSubTotal = calcSubTotal(updatedCart);
+
+  newTotalDiscounts = calcNewTotalDiscounts(updatedCart);
+
+  newTotal = calcNewTotal(newSubTotal, newTotalDiscounts);
 
   return {
     ...state,
     cart: updatedCart,
     subTotal: newSubTotal,
-    //totalDiscounts: newTotalDiscounts,
-    //total: newTotal,
+    totalDiscounts: newTotalDiscounts,
+    total: newTotal,
   };
 };
 
@@ -96,8 +102,8 @@ const removeProductFromCart = (productId, state) => {
   //var tmpPrice = 0;
   //var tmpQty = 0;
   var newSubTotal = 0;
-  //var newTotalDiscounts = 0;
-  //var newTotal = 0;
+  var newTotalDiscounts = 0;
+  var newTotal = 0;
 
   let updatedItem = {
     ...updatedCart[updatedItemIndex],
@@ -139,46 +145,43 @@ const removeProductFromCart = (productId, state) => {
     false
   );*/
 
-  // work out the discounts
-  /*newTotalDiscounts = calcNewTotalDiscounts(
-    updatedCart,
-    availableDiscounts
-  );*/
+  newSubTotal = calcSubTotal(updatedCart);
 
-  //newTotal = calcNewTotal(newSubTotal, newTotalDiscounts);
+  // work out the discounts
+  newTotalDiscounts = calcNewTotalDiscounts(updatedCart);
+
+  newTotal = calcNewTotal(newSubTotal, newTotalDiscounts);
   //calculateCartDiscounts(updatedCart, { ...state.offers });
 
   return {
     ...state,
     cart: updatedCart,
     subTotal: newSubTotal,
-    //totalDiscounts: newTotalDiscounts,
-    //total: newTotal,
+    totalDiscounts: newTotalDiscounts,
+    total: newTotal,
   };
 };
 
-const calcSubTotal = (currentSubTotal, price, qty, add) => {
+const calcSubTotal = (cart) => {
   var newSubTotal = 0;
 
-  if (add) {
-    newSubTotal = currentSubTotal + price;
-  } else {
-    newSubTotal = currentSubTotal - price;
-  }
+  Object.keys(cart).map((key) => {
+    newSubTotal = newSubTotal + cart[key].price * cart[key].quantity;
+  });
 
   return newSubTotal;
 };
 
-/* const calcNewTotalDiscounts = (cart, availableDiscounts) => {
+// loop through the cart getting the discounts
+const calcNewTotalDiscounts = (cart) => {
+  let totalDiscounts = 0;
 
-  console.log(cart);
-  console.log('other');
-  console.log(availableDiscounts);
+  Object.keys(cart).map((key) => {
+    totalDiscounts = totalDiscounts + cart[key].discountTotalSaved;
+  });
 
-  
-
-  return null;
-}; */
+  return totalDiscounts;
+};
 
 const calcNewTotal = (subTotal, totalDiscounts) => {
   return subTotal - totalDiscounts;
@@ -233,16 +236,16 @@ const calculateCartDiscounts = (product, offers, state) => {
 
           if (updatedProduct.quantity <= 1) {
             // take a 1/3 off the price of each butter
-            discountPricePerUnit = twoDP(
+            /*discountPricePerUnit = twoDP(
               updatedProduct.price - updatedProduct.price / 3
-            );
+            );*/
             discountSavingPerUnit = twoDP(updatedProduct.price / 3);
 
             //update the original price
-            originalPricePerUnit = twoDP(updatedProduct.price);
+            /*originalPricePerUnit = twoDP(updatedProduct.price);
 
             // now switch that round, it is now the discounted price
-            updatedProduct.price = twoDP(discountPricePerUnit);
+            updatedProduct.price = twoDP(discountPricePerUnit);*/
           } else {
             /*originalPricePerUnit =
               updatedProduct.originalPricePerUnit;*/

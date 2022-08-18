@@ -29,10 +29,17 @@ function checkDiscountSaving(text) {
   let output = Number(text);
   if (output !== null && output !== '' && output !== 0) {
     return (
-      <span className="offer-saving">saved £{output.toFixed(2)}</span>
+      <span className="offer-saving">save £{output.toFixed(2)}</span>
     );
   }
   return null;
+}
+
+function checkTotalDiscounts(text) {
+  if (text !== null && text.length > 0) {
+    return <span>£{text}</span>;
+  }
+  return <span className="black-text">£&nbsp;&nbsp;-</span>;
 }
 
 function checkDecimalPlaces(text) {
@@ -132,8 +139,9 @@ const CartPage = (props) => {
                         Discounts:
                       </td>
                       <td colSpan="2" className="discount-total">
-                        £
-                        {context.totalDiscounts?.toFixed(2) || '0.00'}
+                        {checkTotalDiscounts(
+                          context.totalDiscounts?.toFixed(2) || '-'
+                        )}
                       </td>
                     </tr>
                     <tr>
@@ -145,7 +153,7 @@ const CartPage = (props) => {
                       </td>
                       <td colSpan="2">
                         <strong>
-                          £{context.total?.toFixed(2) || '0.00'}
+                          £{context.total?.toFixed(2) || ''}
                         </strong>
                       </td>
                     </tr>

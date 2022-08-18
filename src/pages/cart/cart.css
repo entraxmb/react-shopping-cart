@@ -1,5 +1,12 @@
 .discount-total {
-    color: #990000;
+    margin-left: 15px;
+    color: #990000 !important;
+    font-style: italic;
+}
+
+.black-text {
+    color: #000000 !important;
+    font-style: italic;
 }
 
 .blank-cell, .table-striped>tbody>tr .blank-cell{
