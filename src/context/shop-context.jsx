@@ -36,7 +36,6 @@ export default React.createContext({
   cart: [],
   addProductToCart: (product) => {},
   removeProductFromCart: (productId) => {},
-  //calculateCartDiscounts: (cart) => {},
   offers: [
     {
       id: 1,
