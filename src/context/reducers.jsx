@@ -178,7 +178,7 @@ const calculateCartDiscounts = (product, offers, state) => {
 
           // now update the totals
           updatedProduct.lineTotal = twoDP(
-            updatedProduct.price * quantity
+            updatedProduct.price * updatedProduct.quantity
           );
 
           if (mCalc > 1) {
