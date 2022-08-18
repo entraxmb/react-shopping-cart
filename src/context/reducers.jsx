@@ -162,6 +162,25 @@ const calculateCartDiscounts = (product, offers, state) => {
   Object.keys(offers).map((key) => {
     if (updatedProduct.id === offers[key].onId) {
       switch (offers[key].type) {
+        case 'BOGOF':
+          if (updatedProduct.quantity > 1) {
+            discountText = 'BOGOF';
+          }
+
+          const mCalc = Math.floor(
+            updatedProduct.quantity - updatedProduct.quantity / 2
+          );
+
+          discountSavingPerUnit = twoDP(updatedProduct.price * mCalc);
+
+          // work out the total discount total
+          discountTotalSaved = twoDP(discountSavingPerUnit);
+
+          if (mCalc > 1) {
+            discountText += ' *multi-buy*';
+          }
+
+          break;
         case '3rdOff':
           discountText = '3rd OFF';
           if (updatedProduct.quantity > 1) {
