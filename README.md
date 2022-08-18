@@ -1,6 +1,8 @@
 # react-shopping-cart
 
-A basic react based shopping cart build with the following requirements:
+A React based shoping cart, utilising the Context API to handle state management.
+
+The application has the following requirements:
 
 ## requirements of cart
 
