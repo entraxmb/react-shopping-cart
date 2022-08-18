@@ -217,28 +217,42 @@ const calculateCartDiscounts = (product, offers, state) => {
             discountText += ' *multi-buy*';
           }
 
-          //update the original price
-          originalPricePerUnit = twoDP(updatedProduct.price);
+          if (updatedProduct.quantity <= 1) {
+            //update the original price
+            originalPricePerUnit = twoDP(updatedProduct.price);
 
-          // now switch that round, it is now the discounted price
-          updatedProduct.price = twoDP(discountPricePerUnit);
+            // now switch that round, it is now the discounted price
+            updatedProduct.price = twoDP(discountPricePerUnit);
+          } else {
+            originalPricePerUnit =
+              updatedProduct.originalPricePerUnit;
 
+            discountSavingPerUnit =
+              updatedProduct.discountSavingPerUnit;
+          }
+
+          //update the total saved
           // work out the total discount total
-          discountTotalSaved = twoDP(
+          /*discountTotalSaved = twoDP(
             (originalPricePerUnit - discountPricePerUnit) *
               updatedProduct.quantity
+          );*/
+
+          discountTotalSaved = twoDP(
+            discountSavingPerUnit * updatedProduct.quantity
           );
 
+          // now update the totals
           //console.log('bob: ');
           //console.log(updatedProduct.price * quantity);
           updatedProduct.lineTotal = twoDP(
-            discountPricePerUnit * quantity
+            updatedProduct.price * quantity
           );
-
           //update the line total
           /*updatedProduct.lineTotal = twoDP(
             updatedProduct.price * quantity
           );*/
+
           break;
         default:
           break;
