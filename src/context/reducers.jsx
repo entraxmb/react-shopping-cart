@@ -176,6 +176,11 @@ const calculateCartDiscounts = (product, offers, state) => {
           // work out the total discount total
           discountTotalSaved = twoDP(discountSavingPerUnit);
 
+          // now update the totals
+          updatedProduct.lineTotal = twoDP(
+            updatedProduct.price * quantity
+          );
+
           if (mCalc > 1) {
             discountText += ' *multi-buy*';
           }
