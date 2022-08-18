@@ -39,8 +39,9 @@ Scenarios
 
 ## notes
 
-I have the discounts outstanding, though the 3rd off for butter is implemented when buying from the main page.
+At present I have only managed to implement the 3rd off butter calculation. The sub-total, total discounts and cart total are all now in place.
 
+Background to my discount function:
 My function for the discount checking would occur as the shopping cart is rendered to the screen.
 
 It would cycle through each element and would check the 'offers' if one has been applied.
