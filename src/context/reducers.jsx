@@ -219,8 +219,6 @@ const calcSecondaryDiscounts = (cart, offers) => {
           modifiedCart[onIdInCart] = updatedItem;
         }
 
-        console.log(modifiedCart);
-
         break;
       default:
         break;
