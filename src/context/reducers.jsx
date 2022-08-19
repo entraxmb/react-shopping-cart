@@ -193,7 +193,7 @@ const calcSecondaryDiscounts = (cart, offers) => {
             discount + '% OFF (with Soup, limit 1 per order)';
 
           modifiedCart[getIdInCart] = updatedItem;
-        } else {
+        } else if (getIdInCart >= 0 && onIdInCart == null) {
           // you don't have both items in the cart - reset the discount status
           updatedItem = {
             ...modifiedCart[getIdInCart],
@@ -205,7 +205,21 @@ const calcSecondaryDiscounts = (cart, offers) => {
           updatedItem.discountText = '';
 
           modifiedCart[getIdInCart] = updatedItem;
+        } else if (getIdInCart == 0 && onIdInCart >= 0) {
+          // you don't have both items in the cart - reset the discount status
+          updatedItem = {
+            ...modifiedCart[onIdInCart],
+          };
+
+          // work out the total discount total
+          updatedItem.discountTotalSaved = 0;
+
+          updatedItem.discountText = '';
+
+          modifiedCart[onIdInCart] = updatedItem;
         }
+
+        console.log(modifiedCart);
 
         break;
       default:
