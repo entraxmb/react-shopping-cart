@@ -49,16 +49,10 @@ const addProductToCart = (product, state) => {
     updatedCart[updatedItemIndex] = checkedProduct;
   }
 
-  //console.log('sending:');
-  //console.log(updatedCart);
-
   //check for secondary discounts
   updatedCart = calcSecondaryDiscounts(updatedCart, {
     ...state.offers,
   });
-
-  //console.log('returned:');
-  //console.log(updatedCart);
 
   // work out the new sub-total
   newSubTotal = calcSubTotal(updatedCart);
@@ -170,21 +164,23 @@ const calcSecondaryDiscounts = (cart, offers) => {
         const onName = discountList[key].on;
         const discount = discountList[key].discount;
 
-        const getIdInCart = modifiedCart.findIndex(
-          (item) => item.id === getId
-        );
-
+        // check the item the offer is on
         const onIdInCart = modifiedCart.findIndex(
           (item) => item.id === onId
         );
 
-        if (getIdInCart >= 0 && onIdInCart >= 0) {
+        // check for the item you get
+        const getIdInCart = modifiedCart.findIndex(
+          (item) => item.id === getId
+        );
+
+        if (onIdInCart >= 0 && getIdInCart >= 0) {
           // you have both items in the cart
           updatedItem = {
             ...modifiedCart[getIdInCart],
           };
 
-          // work out the total discount total
+          // update the discount details for this line item
           updatedItem.discountTotalSaved = twoDP(
             updatedItem.price - updatedItem.price * (discount / 100)
           );
@@ -192,31 +188,21 @@ const calcSecondaryDiscounts = (cart, offers) => {
           updatedItem.discountText =
             discount + '% OFF (with Soup, limit 1 per order)';
 
+          // push the modified item back to the cart
           modifiedCart[getIdInCart] = updatedItem;
-        } else if (getIdInCart >= 0 && onIdInCart == null) {
-          // you don't have both items in the cart - reset the discount status
+        } else if (onIdInCart < 0 && getIdInCart >= 0) {
+          // you don't have the 'on'item
+          // you have both items in the cart
           updatedItem = {
             ...modifiedCart[getIdInCart],
           };
 
-          // work out the total discount total
+          // update the discount details for this line item
           updatedItem.discountTotalSaved = 0;
-
           updatedItem.discountText = '';
 
+          // push the modified item back to the cart
           modifiedCart[getIdInCart] = updatedItem;
-        } else if (getIdInCart == 0 && onIdInCart >= 0) {
-          // you don't have both items in the cart - reset the discount status
-          updatedItem = {
-            ...modifiedCart[onIdInCart],
-          };
-
-          // work out the total discount total
-          updatedItem.discountTotalSaved = 0;
-
-          updatedItem.discountText = '';
-
-          modifiedCart[onIdInCart] = updatedItem;
         }
 
         break;
