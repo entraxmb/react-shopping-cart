@@ -1,3 +1,11 @@
+/*
+ ** Key:
+ **
+ ** BOGIHP - Buy One get another item Half Price
+ ** BOGOF  - Buy One get One of the Same Type Free
+ ** 3rdOff - Get 3rd Off this Product
+ **/
+
 import React, { useState, useReducer } from 'react';
 
 import ShopContext from './shop-context';
@@ -53,8 +61,8 @@ const GlobalState = (props) => {
       onId: 4,
       get: 'Bread',
       getId: 1,
-      type: 'BOGOHP',
-      discount: 0.5,
+      type: 'BOGIHP',
+      discount: 50,
     },
     {
       id: 3,

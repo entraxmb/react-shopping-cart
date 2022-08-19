@@ -39,12 +39,17 @@ Scenarios
 
 ## notes
 
-At present I have only managed to implement the 3rd off butter calculation. The sub-total, total discounts and cart total are all now in place.
+You can add, remove items to the cart and the relevant discounts are applied / removed in the cart.
 
-Background to my discount function:
-My function for the discount checking would occur as the shopping cart is rendered to the screen.
+### keys used
 
-It would cycle through each element and would check the 'offers' if one has been applied.
+BOGIHP - Buy One get another item Half Price
+BOGOF - Buy One get One of the Same Type Free
+3rdOff - Get 3rd Off this Product
+
+If BOGOF or 3rdOff then it would cycle through the offers to see whether the item that has the offer against is in the offers (e.g. Buy 2 Cheeses get One Free and Get a 3rd Off Butters).
+
+If it was a BOGIHP offer it would cycle through the offers looking for the item you get for the offer if a different product is in the offers (e.g. Buy a Soup you get a Bread 1/2 price).
 
 The 'offers' is to be set out as below:
 

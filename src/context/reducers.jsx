@@ -1,3 +1,5 @@
+import shopContext from './shop-context';
+
 export const ADD_PRODUCT = 'ADD_PRODUCT';
 export const REMOVE_PRODUCT = 'REMOVE_PRODUCT';
 
@@ -10,7 +12,7 @@ function twoDP(number, lang = 'en-GB') {
 }
 
 const addProductToCart = (product, state) => {
-  const updatedCart = [...state.cart];
+  let updatedCart = [...state.cart];
   let updatedItem = {};
   let checkedProduct = {};
   var newSubTotal = 0;
@@ -24,7 +26,8 @@ const addProductToCart = (product, state) => {
     // check and apply discounts
     checkedProduct = calculateCartDiscounts(
       { ...product },
-      { ...state.offers }
+      { ...state.offers },
+      updatedCart
     );
 
     updatedCart.push(checkedProduct);
@@ -38,12 +41,24 @@ const addProductToCart = (product, state) => {
     // check and apply discounts
     checkedProduct = calculateCartDiscounts(
       { ...updatedItem },
-      { ...state.offers }
+      { ...state.offers },
+      updatedCart
     );
 
     // send back to the array
     updatedCart[updatedItemIndex] = checkedProduct;
   }
+
+  //console.log('sending:');
+  //console.log(updatedCart);
+
+  //check for secondary discounts
+  updatedCart = calcSecondaryDiscounts(updatedCart, {
+    ...state.offers,
+  });
+
+  //console.log('returned:');
+  //console.log(updatedCart);
 
   // work out the new sub-total
   newSubTotal = calcSubTotal(updatedCart);
@@ -64,7 +79,7 @@ const addProductToCart = (product, state) => {
 };
 
 const removeProductFromCart = (productId, state) => {
-  const updatedCart = [...state.cart];
+  let updatedCart = [...state.cart];
   let checkedProduct = {};
   const updatedItemIndex = updatedCart.findIndex(
     (item) => item.id === productId
@@ -83,7 +98,8 @@ const removeProductFromCart = (productId, state) => {
   // check and apply discounts
   updatedItem = calculateCartDiscounts(
     { ...updatedItem },
-    { ...state.offers }
+    { ...state.offers },
+    updatedCart
   );
 
   if (updatedItem.quantity <= 0) {
@@ -91,6 +107,11 @@ const removeProductFromCart = (productId, state) => {
   } else {
     updatedCart[updatedItemIndex] = updatedItem;
   }
+
+  //check for secondary discounts
+  updatedCart = calcSecondaryDiscounts(updatedCart, {
+    ...state.offers,
+  });
 
   // update the new sb-total
   newSubTotal = calcSubTotal(updatedCart);
@@ -134,9 +155,75 @@ const calcNewTotal = (subTotal, totalDiscounts) => {
   return subTotal - totalDiscounts;
 };
 
+//check for secondary discounts
+const calcSecondaryDiscounts = (cart, offers) => {
+  let modifiedCart = cart;
+  const discountList = offers;
+  let updatedItem = {};
+
+  Object.keys(discountList).map((key) => {
+    switch (discountList[key].type) {
+      case 'BOGIHP':
+        const getId = discountList[key].getId;
+        const getName = discountList[key].get;
+        const onId = discountList[key].onId;
+        const onName = discountList[key].on;
+        const discount = discountList[key].discount;
+
+        const getIdInCart = modifiedCart.findIndex(
+          (item) => item.id === getId
+        );
+
+        const onIdInCart = modifiedCart.findIndex(
+          (item) => item.id === onId
+        );
+
+        if (getIdInCart >= 0 && onIdInCart >= 0) {
+          // you have both items in the cart
+          updatedItem = {
+            ...modifiedCart[getIdInCart],
+          };
+
+          // work out the total discount total
+          updatedItem.discountTotalSaved = twoDP(
+            updatedItem.price - updatedItem.price * (discount / 100)
+          );
+
+          updatedItem.discountText =
+            discount + '% OFF (with Soup, limit 1 per order)';
+
+          modifiedCart[getIdInCart] = updatedItem;
+        } else {
+          // you don't have both items in the cart - reset the discount status
+          updatedItem = {
+            ...modifiedCart[getIdInCart],
+          };
+
+          // work out the total discount total
+          updatedItem.discountTotalSaved = 0;
+
+          updatedItem.discountText = '';
+
+          modifiedCart[getIdInCart] = updatedItem;
+        }
+
+        break;
+      default:
+        break;
+    }
+  });
+  return modifiedCart;
+};
+
 // update the cart entry adding the discounts
-const calculateCartDiscounts = (product, offers, state) => {
+const calculateCartDiscounts = (
+  product,
+  offers,
+  allItemsInCart,
+  state
+) => {
   const currentProduct = product;
+  const currentCart = allItemsInCart || {};
   let updatedProduct = { ...product };
   let quantity = product.quantity || 0;
   let discountText = product.discountText || '';
@@ -160,6 +247,7 @@ const calculateCartDiscounts = (product, offers, state) => {
   }
 
   Object.keys(offers).map((key) => {
+    //check if the offered items are on the same product (onID === getId)
     if (updatedProduct.id === offers[key].onId) {
       switch (offers[key].type) {
         case 'BOGOF':
