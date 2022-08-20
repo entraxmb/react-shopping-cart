@@ -3,17 +3,21 @@
     color: #990000 !important;
     font-style: italic;
 }
-
+/*
 .black-text {
     color: #000000 !important;
     font-style: italic;
 }
 
-.blank-cell, .table-striped>tbody>tr .blank-cell{
+.blank-cell {
     color: #000000;
     border: 0px;
     background-color: transparent !important;
 }
+
+.blank-row {
+    background-color: transparent !important;
+}*/
 
 .cell-text-right {
     text-align: right;
@@ -21,11 +25,37 @@
 
 .offer-applied {
     margin-left: 15px;
+    font-size: x-small;
 }
 
 .offer-saving {
     margin-left: 15px;
     color: #990000;
     font-style: italic;
+    font-size: x-small;
+}
+
+.tfooter {
+    border-color: #ffffff;
+}
+
+.footer-cell {
+    border: 1px solid rgba(0,0,0,0.10);
+}
+
+thead {
+    border: 1px solid rgba(0,0,0,0.10);
+}
+
+.cell-button {
+    font-size:x-small;
+}
+
+table {
     font-size: small;
+}
+
+.footer-text {    
+    font-style: italic;
+    font-size: x-small;
 }

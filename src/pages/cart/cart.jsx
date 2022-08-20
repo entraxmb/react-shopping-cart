@@ -4,25 +4,49 @@ import ShopContext from '../../context/shop-context';
 
 import './cart.css';
 
-/*function getNewSubTotal(context) {
-  let st = 0;
-
-  if (context.cart.length > 0) {
-    context.cart.map(function (item, i) {
-      st += item.price * item.quantity;
-    });
-  }
-
-  return st;
-}*/
+var discountBadge = '';
+var footerText = '';
+var isFooterTextVisible = false;
 
 function checkDiscountType(text) {
   if (text !== null && text.length > 0) {
-    return (
-      <span className="badge bg-info offer-applied">{text}</span>
+    showDiscountBadge(text);
+  } else {
+    discountBadge = '';
+  }
+
+  return;
+}
+
+function checkForFooterText(text) {
+  if (text !== null && text.length > 0) {
+    if (text === 'FALSE') {
+      showFooterText('');
+      isFooterTextVisible = false;
+    } else {
+      showFooterText(text);
+      isFooterTextVisible = true;
+    }
+  }
+  return;
+}
+
+function showDiscountBadge(text) {
+  if (text !== null && text.length > 0) {
+    discountBadge = (
+      <span className="offer-applied badge bg-info">{text}</span>
     );
   }
-  return null;
+  return discountBadge;
+}
+
+function showFooterText(text) {
+  if (text !== null && text.length > 0) {
+    footerText = <span className="footer-text">{text}</span>;
+  } else {
+    footerText = '';
+  }
+  return footerText;
 }
 
 function checkDiscountSaving(text) {
@@ -53,10 +77,7 @@ function checkDecimalPlaces(text) {
 const CartPage = (props) => {
   const context = useContext(ShopContext);
 
-  useEffect(() => {
-    /*console.log(context);
-    context.calculateCartDiscounts(context.cart);*/
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <ShopContext.Consumer>
@@ -76,16 +97,25 @@ const CartPage = (props) => {
                 <table
                   id="tblCart"
                   data-testid="tblCart"
-                  className="table table-striped table-sm"
+                  className="table table-sm"
                 >
-                  <thead>
+                  <thead className="table-light">
                     <tr className="border-bottom">
-                      <th scope="col">Product</th>
-                      <th scope="col">Qty</th>
-                      <th scope="col">Price</th>
-                      <th scope="col">Total</th>
-                      <th scope="col"></th>
-                      <th scope="col"></th>
+                      <th scope="col" className="col-3">
+                        Product
+                      </th>
+                      <th scope="col" className="col2">
+                        Qty
+                      </th>
+                      <th scope="col" className="col2">
+                        Price
+                      </th>
+                      <th scope="col" className="col"></th>
+                      <th scope="col" className="col">
+                        Total
+                      </th>
+                      <th scope="col" className="col"></th>
+                      <th scope="col" className="col"></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -94,9 +124,14 @@ const CartPage = (props) => {
                         <td>
                           {cartItem.name}
                           {checkDiscountType(cartItem.discountText)}
+                          {discountBadge}
+                          {checkForFooterText(
+                            cartItem.footnote || ''
+                          )}
                         </td>
                         <td>{cartItem.quantity}</td>
                         <td>£{checkDecimalPlaces(cartItem.price)}</td>
+                        <td></td>
                         <td>
                           £{checkDecimalPlaces(cartItem.lineTotal)}
                         </td>
@@ -107,7 +142,7 @@ const CartPage = (props) => {
                         </td>
                         <td>
                           <button
-                            className="btn btn-danger btn-sm"
+                            className="cell-button btn btn-danger btn-sm"
                             onClick={context.removeProductFromCart.bind(
                               this,
                               cartItem.id
@@ -118,46 +153,47 @@ const CartPage = (props) => {
                         </td>
                       </tr>
                     ))}
-                    <tr>
-                      <td
-                        colSpan="3"
-                        className="blank-cell cell-text-right"
-                      >
+                  </tbody>
+                  <tfoot className="tfooter">
+                    <tr className="blank-row">
+                      <td colSpan="3" className="blank-cell">
+                        {footerText}
+                      </td>
+                      <td className="cell-text-right footer-cell">
                         <strong>Sub-Total:</strong>
                       </td>
-                      <td colSpan="2">
+                      <td className="footer-cell">
                         <strong>
                           £{context.subTotal?.toFixed(2) || '0.00'}
                         </strong>
                       </td>
+                      <td colSpan="2" className="blank-cell"></td>
                     </tr>
-                    <tr>
-                      <td
-                        colSpan="3"
-                        className="blank-cell cell-text-right"
-                      >
+                    <tr className="blank-row">
+                      <td colSpan="3" className="blank-cell"></td>
+                      <td className="cell-text-right footer-cell">
                         Discounts:
                       </td>
-                      <td colSpan="2" className="discount-total">
+                      <td className="discount-total footer-cell">
                         {checkTotalDiscounts(
                           context.totalDiscounts?.toFixed(2) || '-'
                         )}
                       </td>
+                      <td colSpan="2" className="blank-cell"></td>
                     </tr>
-                    <tr>
-                      <td
-                        colSpan="3"
-                        className="blank-cell cell-text-right"
-                      >
+                    <tr className="blank-row">
+                      <td colSpan="3" className="blank-cell"></td>
+                      <td className="cell-text-right footer-cell">
                         <strong>Total:</strong>
                       </td>
-                      <td colSpan="2">
+                      <td className="footer-cell">
                         <strong>
                           £{context.total?.toFixed(2) || ''}
                         </strong>
                       </td>
+                      <td colSpan="2" className="blank-cell"></td>
                     </tr>
-                  </tbody>
+                  </tfoot>
                 </table>
               </div>
             </div>

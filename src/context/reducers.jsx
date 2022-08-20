@@ -154,6 +154,7 @@ const calcSecondaryDiscounts = (cart, offers) => {
   let modifiedCart = cart;
   const discountList = offers;
   let updatedItem = {};
+  let showFooterText = false;
 
   Object.keys(discountList).map((key) => {
     switch (discountList[key].type) {
@@ -185,8 +186,12 @@ const calcSecondaryDiscounts = (cart, offers) => {
             updatedItem.price - updatedItem.price * (discount / 100)
           );
 
-          updatedItem.discountText =
-            discount + '% OFF (with Soup, limit 1 per order)';
+          updatedItem.discountText = discount + '% OFF*';
+
+          updatedItem.footnote =
+            '*when you buy Soup (limit 1 per order)';
+
+          showFooterText = true;
 
           // push the modified item back to the cart
           modifiedCart[getIdInCart] = updatedItem;
@@ -200,6 +205,12 @@ const calcSecondaryDiscounts = (cart, offers) => {
           // update the discount details for this line item
           updatedItem.discountTotalSaved = 0;
           updatedItem.discountText = '';
+          if (showFooterText) {
+            updatedItem.footnote =
+              '*when you buy Soup (limit 1 per order)';
+          } else {
+            updatedItem.footnote = 'FALSE';
+          }
 
           // push the modified item back to the cart
           modifiedCart[getIdInCart] = updatedItem;
