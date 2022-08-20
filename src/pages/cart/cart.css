@@ -59,3 +59,7 @@ table {
     font-style: italic;
     font-size: x-small;
 }
+
+.nudge {
+    margin-top: 25px;
+}

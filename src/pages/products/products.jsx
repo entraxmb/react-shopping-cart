@@ -21,6 +21,17 @@ const ProductsPage = (props) => {
                   data-testid="tblProducts"
                   className="table table-striped table-sm"
                 >
+                  <thead className="table-light">
+                    <tr className="border-bottom">
+                      <th scope="col" className="col-sm-7">
+                        Product
+                      </th>
+                      <th scope="col" className="col-sm">
+                        Price
+                      </th>
+                      <th scope="col" className="col-sm-3"></th>
+                    </tr>
+                  </thead>
                   <tbody>
                     {context.products.map((product) => (
                       <tr
@@ -33,7 +44,7 @@ const ProductsPage = (props) => {
                         <td>Price: £{product.price.toFixed(2)}</td>
                         <td>
                           <button
-                            className="btn btn-primary btn-sm"
+                            className="cell-button btn btn-primary btn-sm"
                             onClick={context.addProductToCart.bind(
                               this,
                               product

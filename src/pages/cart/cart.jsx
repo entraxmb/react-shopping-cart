@@ -77,7 +77,9 @@ function checkDecimalPlaces(text) {
 const CartPage = (props) => {
   const context = useContext(ShopContext);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const timestamp = new Date().getTime();
+  }, []);
 
   return (
     <ShopContext.Consumer>
@@ -89,11 +91,8 @@ const CartPage = (props) => {
             }, 0)}
           />
           <main>
-            <div className="row g-5">
-              <div className="table-responsive">
-                {context.cart.length <= 0 && (
-                  <p>No Item(s) in the Cart!</p>
-                )}
+            <div className="row row-cols-1">
+              <div className="col-md col table-responsive">
                 <table
                   id="tblCart"
                   data-testid="tblCart"
@@ -101,24 +100,31 @@ const CartPage = (props) => {
                 >
                   <thead className="table-light">
                     <tr className="border-bottom">
-                      <th scope="col" className="col-3">
+                      <th scope="col" className="col-sm-6">
                         Product
                       </th>
-                      <th scope="col" className="col2">
+                      <th scope="col" className="col-sm-1"></th>
+                      <th scope="col" className="col-sm-1">
                         Qty
                       </th>
-                      <th scope="col" className="col2">
+                      <th scope="col" className="col-sm-1">
                         Price
                       </th>
-                      <th scope="col" className="col"></th>
-                      <th scope="col" className="col">
+                      <th scope="col" className="col-sm-1">
                         Total
                       </th>
-                      <th scope="col" className="col"></th>
-                      <th scope="col" className="col"></th>
+                      <th scope="col" className="col-sm-1"></th>
                     </tr>
                   </thead>
                   <tbody>
+                    {context.cart.length <= 0 && (
+                      <tr>
+                        <td colSpan={6}>
+                          <p>No Item(s) in the Cart!</p>
+                        </td>
+                      </tr>
+                    )}
+
                     {context.cart.map((cartItem) => (
                       <tr data-testid="tblCartItem" key={cartItem.id}>
                         <td>
@@ -129,16 +135,16 @@ const CartPage = (props) => {
                             cartItem.footnote || ''
                           )}
                         </td>
-                        <td>{cartItem.quantity}</td>
-                        <td>£{checkDecimalPlaces(cartItem.price)}</td>
-                        <td></td>
-                        <td>
-                          £{checkDecimalPlaces(cartItem.lineTotal)}
-                        </td>
                         <td>
                           {checkDiscountSaving(
                             cartItem.discountTotalSaved
                           )}
+                        </td>
+                        <td>{cartItem.quantity}</td>
+                        <td>£{checkDecimalPlaces(cartItem.price)}</td>
+
+                        <td>
+                          £{checkDecimalPlaces(cartItem.lineTotal)}
                         </td>
                         <td>
                           <button
@@ -156,10 +162,8 @@ const CartPage = (props) => {
                   </tbody>
                   <tfoot className="tfooter">
                     <tr className="blank-row">
-                      <td colSpan="3" className="blank-cell">
-                        {footerText}
-                      </td>
-                      <td className="cell-text-right footer-cell">
+                      <td className="blank-cell">{footerText}</td>
+                      <td colSpan="3" className="cell-text-right">
                         <strong>Sub-Total:</strong>
                       </td>
                       <td className="footer-cell">
@@ -167,11 +171,11 @@ const CartPage = (props) => {
                           £{context.subTotal?.toFixed(2) || '0.00'}
                         </strong>
                       </td>
-                      <td colSpan="2" className="blank-cell"></td>
+                      <td className="blank-cell"></td>
                     </tr>
                     <tr className="blank-row">
-                      <td colSpan="3" className="blank-cell"></td>
-                      <td className="cell-text-right footer-cell">
+                      <td className="blank-cell"></td>
+                      <td colSpan="3" className="cell-text-right">
                         Discounts:
                       </td>
                       <td className="discount-total footer-cell">
@@ -179,11 +183,11 @@ const CartPage = (props) => {
                           context.totalDiscounts?.toFixed(2) || '-'
                         )}
                       </td>
-                      <td colSpan="2" className="blank-cell"></td>
+                      <td className="blank-cell"></td>
                     </tr>
                     <tr className="blank-row">
-                      <td colSpan="3" className="blank-cell"></td>
-                      <td className="cell-text-right footer-cell">
+                      <td className="blank-cell"></td>
+                      <td colSpan="3" className="cell-text-right">
                         <strong>Total:</strong>
                       </td>
                       <td className="footer-cell">
@@ -191,7 +195,7 @@ const CartPage = (props) => {
                           £{context.total?.toFixed(2) || ''}
                         </strong>
                       </td>
-                      <td colSpan="2" className="blank-cell"></td>
+                      <td className="blank-cell"></td>
                     </tr>
                   </tfoot>
                 </table>
