@@ -100,10 +100,10 @@ const CartPage = (props) => {
                 >
                   <thead className="table-light">
                     <tr className="border-bottom">
-                      <th scope="col" className="col-sm-6">
+                      <th scope="col" className="col-sm-5">
                         Product
                       </th>
-                      <th scope="col" className="col-sm-1"></th>
+                      <th scope="col" className="col-sm-2"></th>
                       <th scope="col" className="col-sm-1">
                         Qty
                       </th>
