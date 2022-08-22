@@ -16,6 +16,7 @@ const Navigation = (props) => {
               <button
                 type="button"
                 className="btn btn-sm btn-primary"
+                data-testid="btnCart"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
