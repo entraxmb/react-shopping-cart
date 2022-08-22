@@ -186,10 +186,10 @@ const calcSecondaryDiscounts = (cart, offers) => {
             updatedItem.price - updatedItem.price * (discount / 100)
           );
 
-          updatedItem.discountText = discount + '% OFF*';
+          updatedItem.discountText = discount + '% OFF**';
 
           updatedItem.footnote =
-            '*when you buy Soup (limit 1 per order)';
+            '**when you buy Soup (limit 1 per order)';
 
           showFooterText = true;
 
@@ -207,7 +207,7 @@ const calcSecondaryDiscounts = (cart, offers) => {
           updatedItem.discountText = '';
           if (showFooterText) {
             updatedItem.footnote =
-              '*when you buy Soup (limit 1 per order)';
+              '**when you buy Soup (limit 1 per order)';
           } else {
             updatedItem.footnote = 'FALSE';
           }
