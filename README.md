@@ -2,6 +2,8 @@
 
 A React based shoping cart, utilising the Context API to handle state management.
 
+Working example is at: https://rct.mbproj.com
+
 The application has the following requirements:
 
 ## requirements of cart
